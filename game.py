@@ -3,7 +3,7 @@ import world
 from collections import OrderedDict
 
 def play():
-    print("Ecaspe from cave Terror!")
+    print("Challenge and beat the legendary Dragon!")
     world.parse_world_dsl()
     player = Player()
     while player.is_alive() and not player.victory:
@@ -34,7 +34,7 @@ def get_available_actions(room, player):
         action_adder(actions, 'i', player.print_invetory, "Print inventory")
     if isinstance(room, world.TraderTile):
         action_adder(actions, 't', player.trade, "Trade")    
-    if isinstance(room, world.EnemyTile) and room.enemy.is_alive():
+    if isinstance(room, world.EnemyTile or world.BossTile) and room.enemy.is_alive():
         action_adder(actions, 'e', player.attack, "Attack")
     else:
         if world.tile_at(room.x, room.y - 1):

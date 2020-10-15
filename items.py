@@ -60,15 +60,15 @@ class Consumable:
 class CrustyBread(Consumable):
     def __init__(self):
         self.name = "Crusty Bread"
-        self.healing_value = 10
-        self.value = 10
+        self.healing_value = 15
+        self.value = 15
 
 
 class WaterPouch(Consumable):
     def __init__(self):
         self.name = "Water Pouch"
-        self.healing_value = 8
-        self.value = 8
+        self.healing_value = 10
+        self.value = 10
 
 
 class HealingPotion(Consumable):

@@ -5,6 +5,7 @@ class Player:
     def __init__(self):
         self.inventory = [items.Rock(),
                           items.Dagger(),
+                          items.WaterPouch(),
                           items.CrustyBread()]
         self.x = world.start_tile_location[0]
         self.y = world.start_tile_location[1]
@@ -56,7 +57,8 @@ class Player:
         print(f"You use {best_weapon} against {enemy.name}. You dealt {best_weapon.damage} damage!")
         enemy.hp -= best_weapon.damage
         if not enemy.is_alive():
-            print(f"You killed {enemy.name}!")
+            self.gold += enemy.value
+            print(f"You killed {enemy.name}! You have earned {enemy.value} gold!")
         else:
             print(f"{enemy.name} has {enemy.hp} HP remaining.")
             
@@ -67,8 +69,8 @@ class Player:
             print("You don't have any healing items!")
             return
         
+        print("Choose an item to use to heal: ")
         for i, item in enumerate(consumables, 1):
-            print("Choose an item to use to heal: ")
             print(f"{i}. {item}")
 
         valid = False

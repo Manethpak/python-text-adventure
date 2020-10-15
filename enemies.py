@@ -1,3 +1,5 @@
+import random
+
 class Enemy:
     def __init__(self):
         raise NotImplementedError("Do not create raw Enemy objects.")
@@ -14,6 +16,7 @@ class Goblin(Enemy):
         self.name = "Green Goblin"
         self.hp = 10
         self.damage = 2
+        self.value = random.randint(1, 5)
         self.alive_text = """
         A small goblin has noticed you as you step into the cave.
         He ready his weapon and charged at you with a spiky club!
@@ -28,7 +31,8 @@ class Orge(Enemy):
     def __init__(self):
         self.name = "Giant Orge"
         self.hp = 30
-        self.damage = 8
+        self.damage = 6
+        self.value = random.randint(5, 15)
         self.alive_text = """
         A giant orge is blocking your path!
         You have no choice but to battle the giant monster!
@@ -43,7 +47,8 @@ class GiantSpider(Enemy):
     def __init__(self):
         self.name = "Goliath Giant Spider"
         self.hp = 50
-        self.damage = 10
+        self.damage = 8
+        self.value = random.randint(10, 20)
         self.alive_text = """
         A quiet hissing can be heard as you walked into the room.
         ... suddenly a giant spider jumps onto you from the ceiling!
@@ -57,6 +62,7 @@ class Werewolf(Enemy):
         self.name = "Werewolf of the dark"
         self.hp = 80
         self.damage = 10
+        self.value = random.randint(15, 30)
         self.alive_text = """
         A loud howl, enough to break your eardrum, echo throughout the
         room as you step in.
@@ -73,6 +79,7 @@ class RockGolem(Enemy):
         self.name = "Rock Golem the guadian of the tomb"
         self.hp = 120
         self.damage = 10
+        self.value = random.randint(20, 40)
         self.alive_text = """
         There were giant rocks patched together as if it to resembled a human body.
         As you walk passed it, the rock started to move!
@@ -87,13 +94,14 @@ class Dragon(Enemy):
     def __init__(self):
         self.name = "Dragon of the death"
         self.hp = 200
-        self.damage = 20
+        self.damage = 15
+        self.value = random.randint(30, 50)
         self.alive_text = """
         As you walked into the cave chamber, you noticed that this is the largest cave chamber
         among all the cave you have entered.
         Laying in the middle of the room was a black dragon.
         It has noticed your presence.
-        The dragon is now on four feet prepared to battle with the 
+        The dragon is now on four feet prepared to battle.
         """
         self.dead_text = """
         Bathe in blood, on top of the black dragon corpse.

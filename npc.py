@@ -12,7 +12,7 @@ class NonPlayableCharacter():
 class Trader(NonPlayableCharacter):
     def __init__(self):
         self.name = "Trader"
-        self.gold = 100
+        self.gold = 1000
         self.inventory = [
             items.CrustyBread(),              
             items.CrustyBread(),

@@ -18,8 +18,14 @@ class MapTile:
 class StartTile(MapTile):
     def intro(self):
         return """
-    You find yourself in a cave with a flickering torch on the wall.
-    you can make out four path, each equally as dark and foreboding.
+    The dungeon of the Mythical Beast. It is said that the Black Dragon, the beast that once ruled the continent,
+    had lay its nest deep inside a dungeon rooted within the tallest mountain existed on this continent,
+    according to the tale of Black Beast that has been passed down for centuries.
+    The tale told, that treasure worth a million gold is residing deep within the lair.
+    Many challenger had entered the dungeon. Only to never return home.
+    This time, you had decided to challenge the dungeon...
+    Whether you will be able to step out victorious, or you will never return home
+    The tale of a new hero began.
     """
 
 
@@ -29,10 +35,11 @@ class VictoryTile(MapTile):
     
     def intro(self):
         return """
-    You see a bright light in the distance...
-    ... it grows as you get closer! It's sunlight!
+    You see a bright shining light in the distance...
+    ... as you entered the room, A giant opening from the ceiling direct the sunlight into the room
+    Directly under the sunlight, a hoard of treasure could be seen.
     
-    Victory is yours!
+    Victory is your!!!
     """
 
 
@@ -95,9 +102,9 @@ class TraderTile(MapTile):
         super().__init__(x, y)
     
     def trade(self, buyer, seller):
-        for i, item in enumerate(seller.inventory, 1):
-            print(f"{i}. {item.name} - {item.value} gold")
         while True:
+            for i, item in enumerate(seller.inventory, 1):
+                print(f"{i}. {item.name} - {item.value} gold")
             user_input = input("Choose an item or press Q to exit: ")
             if user_input in ['q', 'Q']:
                 return
@@ -106,7 +113,7 @@ class TraderTile(MapTile):
                     choice = int(user_input)
                     to_swap = seller.inventory[choice - 1]
                     self.swap(seller, buyer, to_swap)
-                except ValueError:
+                except ValueError or IndexError:
                     print("Invalid choice!")
 
     def swap(self, seller, buyer, item):
@@ -118,6 +125,7 @@ class TraderTile(MapTile):
         seller.gold += item.value
         buyer.gold -= item.value
         print("Trade complete!")
+        print("==================================")
 
     def check_if_trade(self, player):
         while True:
@@ -126,9 +134,11 @@ class TraderTile(MapTile):
             if user_input in ['q', 'Q']:
                 return
             elif user_input in ['b', 'B']:
+                print(f"You have {player.gold} gold in your pocket.")
                 print("Available items to buy: ")
                 self.trade(player, self.trader)
             elif user_input in ['s', 'S']:
+                print(f"You have {player.gold} gold in your pocket.")
                 print("Available items to sell: ")
                 self.trade(self.trader, player)
             else:
@@ -167,16 +177,18 @@ class FindGoldTile(MapTile):
 class FindItemTile(MapTile):
     def __init__(self, x, y):
         r = random.random()
-        if r < 0.50:
+        if r < 0.40:
             self.item = items.Rock()
-        elif r < 0.72:
+        elif r < 0.65:
             self.item = items.WaterPouch()
-        elif r < 0.90:
+        elif r < 0.80:
             self.item = items.CrustyBread()
-        elif r < 0.97:
+        elif r < 0.90:
             self.item = items.Dagger()
-        else:
+        elif r < 0.96:
             self.item = items.HealingPotion()
+        else:
+            self.item = items.RustySword()
         self.item_claimed = False
         super().__init__(x, y)
     
@@ -198,13 +210,32 @@ class FindItemTile(MapTile):
         """
 
 
+class EmptyTile(MapTile):
+    def intro(self):
+        return """
+    The cave chamber seem empty, not anything to notice. You must continue onward.
+    """
+
+
+class WarningBossTile(MapTile):
+    def intro(self):
+        return """
+    There is a giant door made out of steel in this chamber.
+    It appeared to be just like the tale, the door to Mythical Beast.
+    The legendary Black Dragon.
+    Once enter, one will never get back
+    """
+
+
 world_dsl = """
-|VT|BT|EN|  |FG|TT|
-|  |  |FG|FG|EN|EN|
-|EN|FG|EN|FI|  |FG|
-|TT|EN|FG|FI|  |EN|
-|EN|  |FG|EN|ST|FI|
-|FI|EN|EN|FI|  |TT|
+|VT|BT|WB|ET|FG|TT|FI|ET|
+|  |WB|FG|FI|EN|EN|  |EN|
+|EN|FG|EN|FI|  |FG|FI|ET|
+|TT|FI|FG|EN|FI|  |ET|  |
+|EN|  |ET|FG|ET|FG|EN|FG|
+|FI|EN|EN|TT|EN|ET|FI|  |
+|FG|  |FG|ET|FI|FG|EN|ET|
+|ET|FI|EN|  |EN|ET|FG|ST|
 """
 
 world_map = []
@@ -230,6 +261,8 @@ tile_type_dict = {"VT": VictoryTile,
                   "FG": FindGoldTile,
                   "BT": BossTile,
                   "FI": FindItemTile,
+                  "ET": EmptyTile,
+                  "WB": WarningBossTile,
                   "  ": None}
 
 start_tile_location = None
